@@ -51,6 +51,10 @@ class TLDetector(object):
         self.last_state = TrafficLight.UNKNOWN
         self.last_wp = -1
         self.state_count = 0
+        # Objects for traffic light detection
+        self.classifier = TLClassifier()
+        self.bridge = CvBridge()
+
         rospy.spin()
 
     def pose_cb(self, msg):
@@ -118,16 +122,13 @@ class TLDetector(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
-        # if(not self.has_image):
-        #     self.prev_light_loc = None
-        #     return False
-        #
-        # cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-        #
-        # #Get classification
-        # return self.light_classifier.get_classification(cv_image)
+        if(not self.has_image):
+            return TrafficLight.UNKNOWN
 
-        return light.state
+        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+
+        #Get classification
+        return self.light_classifier.get_classification(cv_image)
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
