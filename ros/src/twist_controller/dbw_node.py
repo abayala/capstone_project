@@ -66,7 +66,7 @@ class DBWNode(object):
                                      max_lat_accel = max_lat_accel,
                                      max_steer_angle = max_steer_angle,
                                      kp = 0.3, ki=0.1,kd=0.,
-                                     max_throttle= 0.2,min_throttle=0.)
+                                     max_throttle= 0.9,min_throttle=0.)
 
         # Subscribers
         rospy.Subscriber('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
