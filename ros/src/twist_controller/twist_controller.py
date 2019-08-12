@@ -42,9 +42,9 @@ class Controller(object):
         # filter noisy velocity
         current_vel = self.vel_lpf.filt(current_vel)
 
-        rospy.logwarn("angular vel: {0}".format(angular_vel))
-        rospy.logwarn("Target  vel: {0}".format(linear_vel))
-        rospy.logwarn("Current filtered vel: {0}".format(current_vel))
+        # rospy.logwarn("angular vel: {0}".format(angular_vel))
+        # rospy.logwarn("Target  vel: {0}".format(linear_vel))
+        # rospy.logwarn("Current filtered vel: {0}".format(current_vel))
 
         # get steering angle
         steering = self.yaw_controller.get_steering(linear_vel,angular_vel,current_vel)
