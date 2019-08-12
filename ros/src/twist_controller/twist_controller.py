@@ -37,8 +37,14 @@ class Controller(object):
         if not dbw_enabled:
             self.throttle_controller.reset()
             return 0.,0.,0.
+
+
         # filter noisy velocity
         current_vel = self.vel_lpf.filt(current_vel)
+
+        rospy.logwarn("angular vel: {0}".format(angular_vel))
+        rospy.logwarn("Target  vel: {0}".format(linear_vel))
+        rospy.logwarn("Current filtered vel: {0}".format(current_vel))
 
         # get steering angle
         steering = self.yaw_controller.get_steering(linear_vel,angular_vel,current_vel)
@@ -47,7 +53,7 @@ class Controller(object):
         self.last_velocity = current_vel
 
         current_time = rospy.get_time()
-        sample_time = current_vel - self.last_velocity
+        sample_time = current_vel - self.last_time
         self.last_time = current_time
 
         throttle = self.throttle_controller.step(vel_error,sample_time)

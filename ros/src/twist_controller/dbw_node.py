@@ -64,11 +64,12 @@ class DBWNode(object):
                                      wheel_base = wheel_base,
                                      steer_ratio = steer_ratio,
                                      max_lat_accel = max_lat_accel,
-                                     max_steer_angle = max_steer_angle
-                                     )
+                                     max_steer_angle = max_steer_angle,
+                                     kp = 0.3, ki=0.1,kd=0.,
+                                     max_throttle= 0.2,min_throttle=0.)
 
         # Subscribers
-        rospy.Subscriber('/vhicle/dbw_enabled',Bool,self.dbw_enabled_cb)
+        rospy.Subscriber('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
         rospy.Subscriber('/twist_cmd',TwistStamped,self.twist_cb)
         rospy.Subscriber('/current_velocity',TwistStamped,self.velocity_cb)
         #Class variables
@@ -111,7 +112,7 @@ class DBWNode(object):
 
     def twist_cb(self,msg):
         self.linear_vel = msg.twist.linear.x
-        self.angular_vel = msg.twist.angulat.z
+        self.angular_vel = msg.twist.angular.z
 
     def velocity_cb(self,msg):
         self.current_vel = msg.twist.linear.x
