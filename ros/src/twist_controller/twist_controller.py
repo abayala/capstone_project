@@ -27,7 +27,7 @@ class Controller(object):
         self.accel_limit = accel_limit
         self.wheel_radius = wheel_radius
 
-        self.last_time = rospy.get_time()
+        self.last_ts = rospy.get_time()
         self.last_velocity = None
 
 
@@ -52,9 +52,9 @@ class Controller(object):
         vel_error = linear_vel - current_vel
         self.last_velocity = current_vel
 
-        current_time = rospy.get_time()
-        sample_time = current_vel - self.last_time
-        self.last_time = current_time
+        current_ts = rospy.get_time()
+        sample_time = current_ts - self.last_ts
+        self.last_ts = current_ts
 
         throttle = self.throttle_controller.step(vel_error,sample_time)
         brake = 0
